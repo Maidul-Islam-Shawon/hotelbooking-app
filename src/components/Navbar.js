@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from "../images/logo.svg";
-import { FaAlignRight } from "react-icons/fa";
+import { FaAlignRight, FaRegTimesCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
@@ -10,6 +10,13 @@ export default class Navbar extends Component {
 
   handleToggle = () => {
     this.setState({ isOpen: !this.state.isOpen });
+  };
+  showClose = () => {
+    if (this.state.isOpen) {
+      return <FaRegTimesCircle className="nav-icon" />;
+    } else {
+      return <FaAlignRight className="nav-icon" />;
+    }
   };
 
   render() {
@@ -26,7 +33,8 @@ export default class Navbar extends Component {
               className="nav-btn"
               onClick={this.handleToggle}
             >
-              <FaAlignRight className="nav-icon" />
+              {/* <FaAlignRight className="nav-icon" /> */}
+              {this.showClose()}
             </button>
           </div>
 

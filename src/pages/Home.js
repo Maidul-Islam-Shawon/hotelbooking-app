@@ -1,7 +1,23 @@
 import React from "react";
+import { Hero } from "../components/Hero";
+import { Banner } from "../components/Banner";
+import { Link } from "react-router-dom";
+import Services from "../components/Services";
 
 const Home = () => {
-  return <div>Hello from Home page.</div>;
+  return (
+    <>
+      <Hero>
+        <Banner title="Luxurious Rooms" subTitle="Delux rooms starts at £299.">
+          <Link to="/rooms" className="btn-primary">
+            Our Rooms
+          </Link>
+        </Banner>
+      </Hero>
+
+      <Services />
+    </>
+  );
 };
 
 export default Home;
