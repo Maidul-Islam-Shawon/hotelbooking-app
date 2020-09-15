@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import items from "./data";
 
-//........video starts from 2:39:44..........//
+//........video starts from 3:03:03..........//
 
 const RoomContext = React.createContext();
 
@@ -36,11 +36,11 @@ class RoomProvider extends Component {
     return tempItems;
   }
 
-  getRoom(slug) {
+  getRoom = (slug) => {
     let tempRooms = [...this.state.rooms];
     const room = tempRooms.find((room) => room.slug === slug);
     return room;
-  }
+  };
 
   render() {
     return (
