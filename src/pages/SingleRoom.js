@@ -15,11 +15,15 @@ export default class SingleRoom extends Component {
       defaultBcg: defaultImg,
     };
   }
+
   static contextType = RoomContext;
+
   render() {
     const { getRoom } = this.context;
     const room = getRoom(this.state.slug);
+
     console.log(room);
+
     if (!room) {
       return (
         <div className="error">
@@ -44,13 +48,17 @@ export default class SingleRoom extends Component {
     } = room;
 
     return (
-      <Hero hero="roomsHero">
-        <Banner title={`${name} room`}>
-          <Link to="/rooms" className="btn-primary">
-            back to rooms
-          </Link>
-        </Banner>
-      </Hero>
+      <>
+        <Hero hero="roomsHero">
+          <Banner title={`${name} room`}>
+            <Link to="/rooms" className="btn-primary">
+              back to rooms
+            </Link>
+          </Banner>
+        </Hero>
+
+        <h4>{description}</h4>
+      </>
     );
   }
 }
