@@ -4,6 +4,7 @@ import { Banner } from "../components/Banner";
 import { Hero } from "../components/Hero";
 import { RoomContext } from "../Context";
 import defaultImg from "../images/room-1.jpeg";
+import StyledHero from "../components/StyledHero";
 
 export default class SingleRoom extends Component {
   constructor(props) {
@@ -40,24 +41,60 @@ export default class SingleRoom extends Component {
       description,
       capacity,
       size,
-      prices,
+      price,
       extras,
       breakfast,
       pets,
       images,
     } = room;
 
+    // console.log(prices);
+
+    const [mainImg, ...defaultImg] = images;
+
     return (
       <>
-        <Hero hero="roomsHero">
+        <StyledHero img={mainImg || this.state.defaultBcg}>
           <Banner title={`${name} room`}>
             <Link to="/rooms" className="btn-primary">
               back to rooms
             </Link>
           </Banner>
-        </Hero>
+        </StyledHero>
 
-        <h4>{description}</h4>
+        <section className="single-room">
+          <div className="single-room-images">
+            {defaultImg.map((item, index) => {
+              return <img key={index} src={item} alt={name} />;
+            })}
+          </div>
+
+          <div className="single-room-info">
+            <article className="desc">
+              <h3>Details</h3>
+              <p>{description}</p>
+            </article>
+            <article className="info">
+              <h3>Info</h3>
+              <h6>Price: ${price}</h6>
+              <h6>Size: {size} SQFT</h6>
+              <h6>
+                Capacity:{" "}
+                {capacity > 1 ? `${capacity} people` : `${capacity} person`}
+              </h6>
+              <h6>Pets: {pets ? "Pets allowed" : "Pets not allowed"}</h6>
+              <h6>{breakfast && "Free breakfast included"}</h6>
+            </article>
+          </div>
+        </section>
+        <section className="room-extras">
+          <h6>Extras</h6>
+          <ul className="extras">
+            {extras.map((item, index) => {
+              return <li key={index}>-{item}</li>;
+            })}
+          </ul>
+        </section>
       </>
     );
   }
