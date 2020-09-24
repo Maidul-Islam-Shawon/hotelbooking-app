@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import items from "./data";
+//import items from "./data";
+import Client from "./Contentful";
+
+// Client.getEntries({
+//   content_type: "beachResortRoom",
+// })
+//   .then((response) => console.log("result", response.items))
+//   .catch(console.error);
 
 //........video starts from 4:58:14..........//
 
@@ -22,30 +29,46 @@ class RoomProvider extends Component {
     pets: false,
   };
 
+  //get data
+  getData = async () => {
+    try {
+      let response = await Client.getEntries({
+        content_type: "beachResortRoom",
+        order: "sys.createdAt",
+
+        /*...if you want to order according to price */
+        //order: "fields.price",
+      });
+      //console.log(response.items);
+
+      let rooms = this.formatData(response.items);
+      let featuredRooms = rooms.filter((room) => room.featured === true);
+      let maxPrice = Math.max(...rooms.map((item) => item.price));
+      let maxSize = Math.max(...rooms.map((item) => item.size));
+
+      this.setState({
+        rooms,
+        featuredRooms,
+        sortedRooms: rooms,
+        loading: false,
+        price: maxPrice,
+        maxPrice,
+        maxSize,
+      });
+    } catch (error) {
+      console.log("log error: ", error);
+    }
+  };
+
   componentDidMount() {
-    let rooms = this.formatData(items);
-    let featuredRooms = rooms.filter((room) => room.featured === true);
-    let maxPrice = Math.max(...rooms.map((item) => item.price));
-    let maxSize = Math.max(...rooms.map((item) => item.size));
-
-    //console.log(maxSize);
-
-    this.setState({
-      rooms,
-      featuredRooms,
-      sortedRooms: rooms,
-      loading: false,
-      price: maxPrice,
-      maxPrice,
-      maxSize,
-    });
+    this.getData();
   }
 
   formatData(items) {
+    debugger;
     let tempItems = items.map((item) => {
       let id = item.sys.id;
       let images = item.fields.images.map((image) => image.fields.file.url);
-
       let room = { ...item.fields, images, id };
       return room;
     });
